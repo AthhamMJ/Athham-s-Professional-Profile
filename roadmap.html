@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap — Adam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c:       #00D4FF;
+  --c-dim:   #0099BB;
+  --c-glow:  rgba(0,212,255,.14);
+  --c-glow2: rgba(0,212,255,.30);
+  --c-bdr:   rgba(0,212,255,.20);
+  --bg:      #050608;
+  --bg2:     #090B10;
+  --bdr:     rgba(255,255,255,.07);
+  --surf:    rgba(255,255,255,.032);
+  --surf2:   rgba(255,255,255,.058);
+  --txt:     #EDF0F4;
+  --txt2:    #8A93A2;
+  --txt3:    #3E4655;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+/* noise */
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: .45;
+}
+
+/* subtle ambient glow */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0,212,255,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 10% 90%, rgba(0,80,160,.05) 0%, transparent 70%);
+}
+
+/* ── WRAPPER ── */
+.wrap {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 820px;
+}
+
+/* ── HEADER ── */
+.hdr {
+  margin-bottom: 64px;
+  opacity: 0; transform: translateY(20px);
+  animation: fu .8s ease forwards .1s;
+}
+.hdr-eye {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--c); display: flex; align-items: center; gap: 10px;
+  margin-bottom: 18px;
+}
+.hdr-eye::before { content: ''; width: 24px; height: 1px; background: var(--c); }
+.hdr-title {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  letter-spacing: -.035em; line-height: 1.06;
+}
+.hdr-title em { font-style: normal; color: var(--c); }
+.hdr-sub {
+  margin-top: 16px; font-size: .95rem;
+  color: var(--txt2); line-height: 1.75; max-width: 520px;
+}
+
+/* ── TIMELINE ── */
+.tl {
+  position: relative;
+  opacity: 0; transform: translateY(24px);
+  animation: fu .9s ease forwards .35s;
+}
+
+/* vertical spine */
+.tl::before {
+  content: '';
+  position: absolute; left: 88px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    var(--c) 0%,
+    rgba(0,212,255,.3) 60%,
+    transparent 100%);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  position: relative;
+}
+.stage + .stage { border-top: 1px solid var(--bdr); }
+
+/* left col */
+.s-left {
+  padding: 36px 28px 36px 0;
+  text-align: right;
+  position: relative;
+}
+.s-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--txt3);
+  display: block; margin-bottom: 6px;
+}
+.s-name {
+  font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 700;
+  color: var(--txt2); line-height: 1.25; transition: color .22s;
+}
+
+/* dot on spine */
+.s-dot {
+  position: absolute; right: -5px; top: 42px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--bdr);
+  transition: border-color .22s, background .22s, box-shadow .22s;
+}
+.stage:hover .s-dot {
+  border-color: var(--c); background: var(--c);
+  box-shadow: 0 0 14px var(--c-glow2);
+}
+.stage:hover .s-name { color: var(--c); }
+
+/* right col */
+.s-right {
+  padding: 36px 0 36px 44px;
+}
+
+/* tags */
+.tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 13px; }
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem; letter-spacing: .09em; text-transform: uppercase;
+  padding: 4px 11px; border: 1px solid var(--bdr);
+  color: var(--txt3); border-radius: 2px;
+  transition: border-color .22s, color .22s;
+}
+.stage:hover .tag { border-color: var(--c-bdr); color: var(--txt2); }
+
+.s-desc {
+  font-size: .82rem; color: var(--txt3); line-height: 1.74; max-width: 460px;
+}
+
+/* ── ANIMATION ── */
+@keyframes fu { to { opacity: 1; transform: translateY(0); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  body { padding: 40px 16px; }
+  .tl::before { left: 0; }
+  .stage { grid-template-columns: 1fr; }
+  .s-left {
+    text-align: left; padding: 24px 0 0;
+    padding-left: 16px; border-left: 1px solid var(--bdr);
+  }
+  .s-dot { display: none; }
+  .s-right {
+    padding: 10px 0 26px 16px;
+    border-left: 1px solid var(--bdr);
+  }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- header -->
+  <div class="hdr">
+    <div class="hdr-eye">Learning Roadmap</div>
+    <h1 class="hdr-title">The Structured <em>Path.</em></h1>
+    <p class="hdr-sub">Seven stages from frontend foundations to technology entrepreneurship.</p>
+  </div>
+
+  <!-- timeline -->
+  <div class="tl">
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 01</span>
+        <div class="s-name">Frontend<br>Foundations</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Responsive Design</span>
+        </div>
+        <p class="s-desc">Mastering the web's core building blocks — semantic structure, layout systems, JavaScript fundamentals, and fully responsive interfaces across every device.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 02</span>
+        <div class="s-name">Advanced<br>Frontend</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">React</span>
+          <span class="tag">Tailwind CSS</span>
+          <span class="tag">Animations</span>
+          <span class="tag">UI Systems</span>
+        </div>
+        <p class="s-desc">Component-driven development, utility-first styling, premium motion design, and scalable design systems built for production-grade applications.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 03</span>
+        <div class="s-name">Backend<br>Engineering</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">APIs</span>
+          <span class="tag">Databases</span>
+          <span class="tag">Authentication</span>
+          <span class="tag">Server Dev</span>
+        </div>
+        <p class="s-desc">RESTful and GraphQL APIs, relational and NoSQL databases, secure auth flows, and robust server-side architecture for high-performance systems.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 04</span>
+        <div class="s-name">Full Stack<br>Development</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">Complete Web Apps</span>
+          <span class="tag">Deployment</span>
+          <span class="tag">Cloud Services</span>
+        </div>
+        <p class="s-desc">Unifying frontend and backend into complete deployed applications — CI/CD, cloud infrastructure, containerisation, and real-world delivery from codebase to production.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 05</span>
+        <div class="s-name">AI Systems<br>Development</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">AI APIs</span>
+          <span class="tag">Automation</span>
+          <span class="tag">AI Assistants</span>
+          <span class="tag">Intelligent Apps</span>
+        </div>
+        <p class="s-desc">LLM API integration, multi-agent automation pipelines, contextual AI assistants, and intelligent decision layers embedded into full-stack products.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 06</span>
+        <div class="s-name">IoT<br>Development</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">Sensors</span>
+          <span class="tag">Connected Devices</span>
+          <span class="tag">Smart Systems</span>
+          <span class="tag">Hardware Integration</span>
+        </div>
+        <p class="s-desc">Sensor networks, edge computing, MQTT protocols, and unified device platforms bridging hardware intelligence with cloud-connected software ecosystems.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="s-left">
+        <span class="s-num">Stage 07</span>
+        <div class="s-name">Technology<br>Entrepreneurship</div>
+        <div class="s-dot"></div>
+      </div>
+      <div class="s-right">
+        <div class="tags">
+          <span class="tag">MVP Development</span>
+          <span class="tag">Product Validation</span>
+          <span class="tag">Startup Building</span>
+          <span class="tag">Business Scaling</span>
+        </div>
+        <p class="s-desc">Lean MVPs, user research, market validation, team building, and investment narratives — translating engineering depth into ventures that scale and endure.</p>
+      </div>
+    </div>
+
+  </div><!-- /tl -->
+</div><!-- /wrap -->
+</body>
+</html>
