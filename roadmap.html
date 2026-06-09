@@ -94,13 +94,26 @@ body::before {
 
 /* vertical spine */
 .tl::before {
-  content: '';
-  position: absolute; left: 88px; top: 0; bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom,
-    var(--c) 0%,
-    rgba(0,212,255,.3) 60%,
-    transparent 100%);
+  content:'';
+  position:absolute;
+  left:88px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:linear-gradient(
+    to bottom,
+    #00D4FF,
+    #6EE7FF,
+    rgba(0,212,255,.15)
+  );
+  background-size:100% 300%;
+  animation:flow 8s linear infinite;
+}
+
+@keyframes flow{
+  from{background-position:0 0;}
+  to{background-position:0 100%;}
+
 }
 
 .stage {
@@ -141,8 +154,18 @@ body::before {
 .stage:hover .s-name { color: var(--c); }
 
 /* right col */
-.s-right {
-  padding: 36px 0 36px 44px;
+.s-right{
+  padding:36px 0 36px 44px;
+  transition:.35s ease;
+  border-radius:16px;
+}
+
+.stage:hover .s-right{
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,.08),
+    0 12px 40px rgba(0,212,255,.06);
 }
 
 /* tags */
@@ -185,9 +208,9 @@ body::before {
 
   <!-- header -->
   <div class="hdr">
-    <div class="hdr-eye">Learning Roadmap</div>
-    <h1 class="hdr-title">The Structured <em>Path.</em></h1>
-    <p class="hdr-sub">Seven stages from frontend foundations to technology entrepreneurship.</p>
+    <div class="hdr-eye">Technology Roadmap & Vision</div>
+    <h1 class="hdr-title">Building Systems Beyond Software.</h1>
+    <p class="hdr-sub">Student entrepreneur focused on software engineering, AI systems, IoT innovation, product development,and future technology ventures.</p>
   </div>
 
   <!-- timeline -->
